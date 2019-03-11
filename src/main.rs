@@ -4,6 +4,7 @@ extern crate find_folder;
 use piston_window::*;
 
 mod draw;
+mod game;
 
 // use draw::draw_block;
 
@@ -21,12 +22,12 @@ fn main() {
     let factory = window.factory.clone();
     let mut glyphs = Glyphs::new(font, factory, TextureSettings::new()).unwrap();
     
+    let mut game = game::Game::new(width as i32, height as i32);
     window.set_lazy(true);
     while let Some(e) = window.next() {
         window.draw_2d(&e, |_c, g| {
             
-            draw::draw_block([0.0, 1.0, 0.0, 1.0], 1, 2, &_c, g);
-            draw::draw_rectangle([0.0, 1.0, 0.0, 1.0], 0, 0, width as i32, 1, &_c, g);
+            game.draw(&_c, g);
 
             let transform = _c.transform.trans((640.0 / 2.0) - 70.0, 480.0 / 2.0);
 
