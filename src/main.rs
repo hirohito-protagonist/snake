@@ -9,9 +9,8 @@ mod game;
 // use draw::draw_block;
 
 fn main() {
-    let width = 640;
-    let height = 480;
-    let mut window: PistonWindow = WindowSettings::new("Snake", (width,  height))
+    let (width, height) = (30, 30);
+    let mut window: PistonWindow = WindowSettings::new("Snake", (draw::to_coord(width),  draw::to_coord(height)))
         .exit_on_esc(true)
         .build()
         .unwrap_or_else(|e| { panic!("Failed to build PistonWindow: {}", e) });
