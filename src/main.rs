@@ -24,6 +24,9 @@ fn main() {
     let mut game = game::Game::new(width as i32, height as i32);
     window.set_lazy(true);
     while let Some(e) = window.next() {
+        if let Some(Button::Keyboard(key)) = e.press_args() {
+            game.key_pressed(key);
+        }
         window.draw_2d(&e, |_c, g| {
             
             game.draw(&_c, g);
