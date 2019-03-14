@@ -4,6 +4,7 @@ extern crate find_folder;
 use piston_window::*;
 
 mod draw;
+mod snake;
 mod game;
 
 // use draw::draw_block;
