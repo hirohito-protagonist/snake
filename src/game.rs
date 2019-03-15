@@ -20,7 +20,7 @@ pub struct Game {
 impl Game {
     pub fn new(width: i32, height: i32) -> Game {
         Game{
-            snake: Snake::new(),
+            snake: Snake::new(1, 1),
             width,
             height,
         }
