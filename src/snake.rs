@@ -2,6 +2,14 @@ use std::collections::LinkedList;
 use piston_window::{Context, G2d};
 use crate::draw::{draw_block};
 
+#[derive(Debug)]
+pub enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+
 struct Block {
     x: i32,
     y: i32,

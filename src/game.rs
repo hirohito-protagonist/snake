@@ -1,15 +1,9 @@
 use piston_window::*;
 
 use crate::draw::{draw_rectangle};
-use crate::snake::{Snake};
+use crate::snake::{Snake, Direction};
 
-#[derive(Debug)]
-enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
-}
+
 
 pub struct Game {
     snake: Snake,
