@@ -39,4 +39,12 @@ impl Game {
         };
         println!("{:?}", direction);
     }
+
+    pub fn update(&self, delta_time: f64) {
+        self.update_snake(None);
+    }
+
+    fn update_snake(&self, direction: Option<Direction>) {
+        self.snake.move_forward(direction);
+    }
 }

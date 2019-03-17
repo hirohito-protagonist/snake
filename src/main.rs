@@ -43,5 +43,9 @@ fn main() {
                 g
             ).unwrap();
         });
+
+        e.update(|arg| {
+            game.update(arg.dt);
+        });
     }
 }

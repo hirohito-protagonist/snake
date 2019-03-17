@@ -44,4 +44,8 @@ impl Snake {
             draw_block([0.0, 1.0, 0.0, 1.0], block.x, block.y, context, g);
         }
     }
+
+    pub fn move_forward(&self, direction: Option<Direction>) {
+        println!("Move snake");
+    }
 }
