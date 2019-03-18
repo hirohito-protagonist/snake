@@ -28,7 +28,7 @@ impl Game {
         draw_rectangle([0.0, 1.0, 0.0, 1.0], self.width - 1, 0, 1, self.height, context, g);
     }
 
-    pub fn key_pressed(&self, key: Key) {
+    pub fn key_pressed(&mut self, key: Key) {
 
         let direction = match key {
             Key::Up => Some(Direction::Up),
@@ -37,14 +37,14 @@ impl Game {
             Key::Right => Some(Direction::Right),
             _ => Some(Direction::Up)
         };
-        println!("{:?}", direction);
+        self.update_snake(direction);
     }
 
-    pub fn update(&self, delta_time: f64) {
+    pub fn update(&mut self, delta_time: f64) {
         self.update_snake(None);
     }
 
-    fn update_snake(&self, direction: Option<Direction>) {
+    fn update_snake(&mut self, direction: Option<Direction>) {
         self.snake.move_forward(direction);
     }
 }

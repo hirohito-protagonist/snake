@@ -16,7 +16,8 @@ struct Block {
 }
 
 pub struct Snake {
-    body: LinkedList<Block>
+    body: LinkedList<Block>,
+    direction: Direction,
 }
 
 impl Snake {
@@ -36,6 +37,7 @@ impl Snake {
         });
         Snake {
             body,
+            direction: Direction::Right,
         }
     }
 
@@ -45,7 +47,35 @@ impl Snake {
         }
     }
 
-    pub fn move_forward(&self, direction: Option<Direction>) {
-        println!("Move snake");
+    pub fn move_forward(&mut self, direction: Option<Direction>) {
+        
+        match direction {
+            Some(d) => self.direction = d,
+            None => (),
+        }
+
+        let head_block = self.body.front().unwrap();
+
+        let new_block = match self.direction {
+            Direction::Up => Block {
+                x: head_block.x,
+                y: head_block.y - 1,
+            },
+            Direction::Down => Block {
+                x: head_block.x,
+                y: head_block.y + 1,
+            },
+            Direction::Left => Block {
+                x: head_block.x - 1,
+                y: head_block.y,
+            },
+            Direction::Right => Block {
+                x: head_block.x + 1,
+                y: head_block.y,
+            },
+        };
+
+        self.body.push_front(new_block);
+        self.body.pop_back().unwrap();
     }
 }
