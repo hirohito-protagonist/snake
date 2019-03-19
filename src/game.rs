@@ -35,7 +35,7 @@ impl Game {
             Key::Down => Some(Direction::Down),
             Key::Left => Some(Direction::Left),
             Key::Right => Some(Direction::Right),
-            _ => Some(Direction::Up)
+            _ => Some(self.snake.head_direction())
         };
         self.update_snake(direction);
     }

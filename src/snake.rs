@@ -2,7 +2,7 @@ use std::collections::LinkedList;
 use piston_window::{Context, G2d};
 use crate::draw::{draw_block};
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub enum Direction {
     Up,
     Down,
@@ -77,5 +77,9 @@ impl Snake {
 
         self.body.push_front(new_block);
         self.body.pop_back().unwrap();
+    }
+
+    pub fn head_direction(&self) -> Direction {
+        self.direction
     }
 }
