@@ -23,7 +23,7 @@ fn main() {
     let mut glyphs = Glyphs::new(font, factory, TextureSettings::new()).unwrap();
     
     let mut game = game::Game::new(width as i32, height as i32);
-    window.set_lazy(true);
+
     while let Some(e) = window.next() {
         if let Some(Button::Keyboard(key)) = e.press_args() {
             game.key_pressed(key);

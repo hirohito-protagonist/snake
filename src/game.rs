@@ -4,11 +4,13 @@ use crate::draw::{draw_rectangle};
 use crate::snake::{Snake, Direction};
 
 
+const MOVING_PERIOD: f64 = 0.1;
 
 pub struct Game {
     snake: Snake,
     width: i32,
     height: i32,
+    waiting_time: f64,
 }
 
 impl Game {
@@ -17,6 +19,7 @@ impl Game {
             snake: Snake::new(1, 1),
             width,
             height,
+            waiting_time: 0.0,
         }
     }
 
@@ -41,10 +44,14 @@ impl Game {
     }
 
     pub fn update(&mut self, delta_time: f64) {
-        self.update_snake(None);
+        self.waiting_time += delta_time;
+        if self.waiting_time > MOVING_PERIOD {
+            self.update_snake(None);
+        }
     }
 
     fn update_snake(&mut self, direction: Option<Direction>) {
         self.snake.move_forward(direction);
+        self.waiting_time = 0.0;
     }
 }
