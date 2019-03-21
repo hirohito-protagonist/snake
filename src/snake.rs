@@ -82,4 +82,19 @@ impl Snake {
     pub fn head_direction(&self) -> Direction {
         self.direction
     }
+
+    pub fn is_tail_collision(&self, x: i32, y: i32) -> bool {
+        let mut ch = 0;
+        for block in &self.body {
+            if x == block.x && y == block.y {
+                return true;
+            }
+
+            ch += 1;
+            if ch == self.body.len() - 1 {
+                break;
+            }
+        }
+        return false;
+    }
 }
