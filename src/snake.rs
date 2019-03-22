@@ -54,29 +54,34 @@ impl Snake {
             None => (),
         }
 
-        let head_block = self.body.front().unwrap();
+        let (last_x, last_y): (i32, i32) = self.head_position();
 
         let new_block = match self.direction {
             Direction::Up => Block {
-                x: head_block.x,
-                y: head_block.y - 1,
+                x: last_x,
+                y: last_y - 1,
             },
             Direction::Down => Block {
-                x: head_block.x,
-                y: head_block.y + 1,
+                x: last_x,
+                y: last_y + 1,
             },
             Direction::Left => Block {
-                x: head_block.x - 1,
-                y: head_block.y,
+                x: last_x - 1,
+                y: last_y,
             },
             Direction::Right => Block {
-                x: head_block.x + 1,
-                y: head_block.y,
+                x: last_x + 1,
+                y: last_y,
             },
         };
 
         self.body.push_front(new_block);
         self.body.pop_back().unwrap();
+    }
+
+    pub fn head_position(&self) -> (i32, i32) {
+        let head_block = self.body.front().unwrap();
+        (head_block.x, head_block.y)
     }
 
     pub fn head_direction(&self) -> Direction {
