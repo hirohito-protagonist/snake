@@ -1,3 +1,6 @@
+extern crate piston_window;
+extern crate find_folder;
+
 use piston_window::*;
 
 use crate::draw::{draw_rectangle};
@@ -11,6 +14,7 @@ pub struct Game {
     width: i32,
     height: i32,
     waiting_time: f64,
+    is_game_over: bool,
 }
 
 impl Game {
@@ -20,15 +24,22 @@ impl Game {
             width,
             height,
             waiting_time: 0.0,
+            is_game_over: false,
         }
     }
 
-    pub fn draw(&self, context: &Context, g: &mut G2d) {
-        self.snake.draw(context, g);
+    pub fn draw(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
+
+        if !self.is_game_over {
+            self.snake.draw(context, g);
+        }
         draw_rectangle([0.0, 1.0, 0.0, 1.0], 0, 0, self.width, 1, context, g);
         draw_rectangle([0.0, 1.0, 0.0, 1.0], 0, self.height - 1, self.width, 1, context, g);
         draw_rectangle([0.0, 1.0, 0.0, 1.0], 0, 0, 1, self.height, context, g);
         draw_rectangle([0.0, 1.0, 0.0, 1.0], self.width - 1, 0, 1, self.height, context, g);
+        if self.is_game_over {
+            self.render_game_over(context, g, glyphs);
+        }
     }
 
     pub fn key_pressed(&mut self, key: Key) {
@@ -51,10 +62,10 @@ impl Game {
     }
 
     fn update_snake(&mut self, direction: Option<Direction>) {
-        if (self.is_snake_alive(direction)) {
+        if self.is_snake_alive(direction) {
             self.snake.move_forward(direction);
         } else {
-            println!("Game over");
+            self.is_game_over = true;
         }
         self.waiting_time = 0.0;
     }
@@ -66,5 +77,18 @@ impl Game {
             return false;
         }
         next_x > 0 && next_y > 0 && next_x < self.width - 1 && next_y < self.height - 1
+    }
+
+    fn render_game_over(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
+        let transform = context.transform.trans((640.0 / 2.0) - 70.0, (480.0 / 2.0) + 80.0);
+
+        
+        text::Text::new_color([0.0, 1.0, 0.0, 1.0], 32).draw(
+            "Game Over",
+            glyphs,
+            &context.draw_state,
+            transform,
+            g
+        ).unwrap();
     }
 }

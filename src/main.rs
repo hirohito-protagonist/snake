@@ -29,12 +29,11 @@ fn main() {
             game.key_pressed(key);
         }
         window.draw_2d(&e, |_c, g| {
+            clear([0.0, 0.0, 0.0, 1.0], g);
+            game.draw(&_c, g, &mut glyphs);
             
-            game.draw(&_c, g);
-
             let transform = _c.transform.trans((640.0 / 2.0) - 70.0, 480.0 / 2.0);
 
-            clear([0.0, 0.0, 0.0, 1.0], g);
             text::Text::new_color([0.0, 1.0, 0.0, 1.0], 32).draw(
                 "Snake v0.0.1",
                 &mut glyphs,
@@ -42,6 +41,8 @@ fn main() {
                 transform,
                 g
             ).unwrap();
+
+            
         });
 
         e.update(|arg| {
