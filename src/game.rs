@@ -3,7 +3,7 @@ extern crate find_folder;
 
 use piston_window::*;
 
-use crate::draw::{draw_rectangle};
+use crate::draw::{draw_rectangle, draw_block};
 use crate::snake::{Snake, Direction};
 
 
@@ -15,6 +15,9 @@ pub struct Game {
     height: i32,
     waiting_time: f64,
     is_game_over: bool,
+    food_x: i32,
+    food_y: i32,
+    food_exist: bool,
 }
 
 impl Game {
@@ -25,6 +28,9 @@ impl Game {
             height,
             waiting_time: 0.0,
             is_game_over: false,
+            food_x: 10,
+            food_y: 20,
+            food_exist: true,
         }
     }
 
@@ -32,6 +38,10 @@ impl Game {
 
         if !self.is_game_over {
             self.snake.draw(context, g);
+        }
+
+        if self.food_exist {
+            draw_block([0.0, 1.0, 0.0, 1.0], self.food_x, self.food_y, context, g);
         }
         draw_rectangle([0.0, 1.0, 0.0, 1.0], 0, 0, self.width, 1, context, g);
         draw_rectangle([0.0, 1.0, 0.0, 1.0], 0, self.height - 1, self.width, 1, context, g);
