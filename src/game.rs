@@ -1,6 +1,7 @@
 extern crate piston_window;
 extern crate find_folder;
 
+use rand::{thread_rng, Rng};
 use piston_window::*;
 
 use crate::draw::{draw_rectangle, draw_block};
@@ -30,7 +31,7 @@ impl Game {
             is_game_over: false,
             food_x: 10,
             food_y: 20,
-            food_exist: true,
+            food_exist: false,
         }
     }
 
@@ -69,6 +70,10 @@ impl Game {
         if self.waiting_time > MOVING_PERIOD {
             self.update_snake(None);
         }
+
+        if !self.food_exist {
+            self.add_food();
+        }
     }
 
     fn update_snake(&mut self, direction: Option<Direction>) {
@@ -100,5 +105,15 @@ impl Game {
             transform,
             g
         ).unwrap();
+    }
+
+    fn add_food(&mut self) {
+        let mut rng = thread_rng();
+
+        let new_x = rng.gen_range(1, self.width - 1);
+        let new_y = rng.gen_range(1, self.height - 1);
+        self.food_x = new_x;
+        self.food_y = new_y;
+        self.food_exist = true;
     }
 }
