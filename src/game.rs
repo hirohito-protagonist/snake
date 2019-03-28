@@ -79,6 +79,7 @@ impl Game {
     fn update_snake(&mut self, direction: Option<Direction>) {
         if self.is_snake_alive(direction) {
             self.snake.move_forward(direction);
+            self.check_eating();
         } else {
             self.is_game_over = true;
         }
@@ -115,5 +116,12 @@ impl Game {
         self.food_x = new_x;
         self.food_y = new_y;
         self.food_exist = true;
+    }
+
+    fn check_eating(&mut self) {
+        let (head_x, head_y): (i32, i32) = self.snake.head_position();
+        if self.food_exist && self.food_x == head_x && self.food_y == head_y {
+            self.food_exist = false;
+        }
     }
 }
