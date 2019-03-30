@@ -130,4 +130,34 @@ impl Snake {
         }
         return false;
     }
+
+    pub fn add_tail(&mut self, direction: Option<Direction>) {
+        
+        match direction {
+            Some(d) => self.direction = d,
+            None => (),
+        }
+
+        let (last_x, last_y): (i32, i32) = self.head_position();
+
+        let new_block = match self.direction {
+            Direction::Up => Block {
+                x: last_x,
+                y: last_y - 1,
+            },
+            Direction::Down => Block {
+                x: last_x,
+                y: last_y + 1,
+            },
+            Direction::Left => Block {
+                x: last_x - 1,
+                y: last_y,
+            },
+            Direction::Right => Block {
+                x: last_x + 1,
+                y: last_y,
+            },
+        };
+        self.body.push_back(new_block);
+    }
 }
