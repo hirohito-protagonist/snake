@@ -65,28 +65,7 @@ impl Snake {
             None => (),
         }
 
-        let (last_x, last_y): (i32, i32) = self.head_position();
-
-        let new_block = match self.direction {
-            Direction::Up => Block {
-                x: last_x,
-                y: last_y - 1,
-            },
-            Direction::Down => Block {
-                x: last_x,
-                y: last_y + 1,
-            },
-            Direction::Left => Block {
-                x: last_x - 1,
-                y: last_y,
-            },
-            Direction::Right => Block {
-                x: last_x + 1,
-                y: last_y,
-            },
-        };
-
-        self.body.push_front(new_block);
+        self.body.push_front(self.create_block(direction));
         self.body.pop_back().unwrap();
     }
 
@@ -132,11 +111,15 @@ impl Snake {
     }
 
     pub fn add_tail(&mut self, direction: Option<Direction>) {
-        
         match direction {
             Some(d) => self.direction = d,
             None => (),
         }
+        self.body.push_back(self.create_block(direction));
+    }
+
+    fn create_block(&self, direction: Option<Direction>) -> Block {
+
 
         let (last_x, last_y): (i32, i32) = self.head_position();
 
@@ -158,6 +141,7 @@ impl Snake {
                 y: last_y,
             },
         };
-        self.body.push_back(new_block);
+
+        new_block
     }
 }
