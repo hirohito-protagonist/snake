@@ -54,7 +54,12 @@ impl Game {
     }
 
     pub fn key_pressed(&mut self, key: Key) {
-
+        if self.is_game_over {
+            match key {
+                Key::Space => self.restart(),
+                _ => {}
+            }
+        }
         let direction = match key {
             Key::Up => Some(Direction::Up),
             Key::Down => Some(Direction::Down),
@@ -132,5 +137,15 @@ impl Game {
             self.food_exist = false;
             self.snake.add_tail(direction);
         }
+    }
+
+    fn restart(&mut self) {
+        self.snake = Snake::new(1, 1);
+        self.waiting_time =  0.0;
+        self.is_game_over = false;
+        self.food_x = 10;
+        self.food_y = 20;
+        self.food_exist = true;
+        self.is_game_over = false;
     }
 }
