@@ -4,6 +4,7 @@ extern crate find_folder;
 use piston_window::*;
 
 mod draw;
+mod theme;
 mod snake;
 mod game;
 
@@ -29,12 +30,12 @@ fn main() {
             game.key_pressed(key);
         }
         window.draw_2d(&e, |_c, g| {
-            clear([0.0, 0.0, 0.0, 1.0], g);
+            clear(theme::BACKGROUND_COLOR, g);
             game.draw(&_c, g, &mut glyphs);
             
             let transform = _c.transform.trans((640.0 / 2.0) - 70.0, 480.0 / 2.0);
 
-            text::Text::new_color([0.0, 1.0, 0.0, 1.0], 32).draw(
+            text::Text::new_color(theme::TEXT_COLOR, 32).draw(
                 "Snake v0.0.1",
                 &mut glyphs,
                 &_c.draw_state,

@@ -1,6 +1,7 @@
 use std::collections::LinkedList;
 use piston_window::{Context, G2d};
 use crate::draw::{draw_block};
+use crate::theme;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub enum Direction {
@@ -54,7 +55,7 @@ impl Snake {
 
     pub fn draw(&self, context: &Context, g: &mut G2d) {
         for block in &self.body {
-            draw_block([0.0, 1.0, 0.0, 1.0], block.x, block.y, context, g);
+            draw_block(theme::SNAKE_COLOR, block.x, block.y, context, g);
         }
     }
 

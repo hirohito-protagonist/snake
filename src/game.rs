@@ -6,7 +6,7 @@ use piston_window::*;
 
 use crate::draw::{draw_rectangle, draw_block};
 use crate::snake::{Snake, Direction};
-
+use crate::theme;
 
 const MOVING_PERIOD: f64 = 0.1;
 
@@ -42,12 +42,12 @@ impl Game {
         }
 
         if self.food_exist {
-            draw_block([0.0, 1.0, 0.0, 1.0], self.food_x, self.food_y, context, g);
+            draw_block(theme::FOOD_COLOR, self.food_x, self.food_y, context, g);
         }
-        draw_rectangle([0.0, 1.0, 0.0, 1.0], 0, 0, self.width, 1, context, g);
-        draw_rectangle([0.0, 1.0, 0.0, 1.0], 0, self.height - 1, self.width, 1, context, g);
-        draw_rectangle([0.0, 1.0, 0.0, 1.0], 0, 0, 1, self.height, context, g);
-        draw_rectangle([0.0, 1.0, 0.0, 1.0], self.width - 1, 0, 1, self.height, context, g);
+        draw_rectangle(theme::BORDER_COLOR, 0, 0, self.width, 1, context, g);
+        draw_rectangle(theme::BORDER_COLOR, 0, self.height - 1, self.width, 1, context, g);
+        draw_rectangle(theme::BORDER_COLOR, 0, 0, 1, self.height, context, g);
+        draw_rectangle(theme::BORDER_COLOR, self.width - 1, 0, 1, self.height, context, g);
         if self.is_game_over {
             self.render_game_over(context, g, glyphs);
         }
@@ -108,7 +108,7 @@ impl Game {
         let transform = context.transform.trans((640.0 / 2.0) - 70.0, (480.0 / 2.0) + 80.0);
 
         
-        text::Text::new_color([0.0, 1.0, 0.0, 1.0], 32).draw(
+        text::Text::new_color(theme::TEXT_COLOR, 32).draw(
             "Game Over",
             glyphs,
             &context.draw_state,
