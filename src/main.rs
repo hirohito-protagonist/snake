@@ -11,8 +11,8 @@ mod game;
 // use draw::draw_block;
 
 fn main() {
-    let (width, height) = (30, 30);
-    let mut window: PistonWindow = WindowSettings::new("Snake", (draw::to_coord(width),  draw::to_coord(height)))
+    let (width, height) = (80, 58);
+    let mut window: PistonWindow = WindowSettings::new("Snake", (800,  600))
         .exit_on_esc(true)
         .build()
         .unwrap_or_else(|e| { panic!("Failed to build PistonWindow: {}", e) });
@@ -33,9 +33,9 @@ fn main() {
             clear(theme::BACKGROUND_COLOR, g);
             game.draw(&_c, g, &mut glyphs);
             
-            let transform = _c.transform.trans((640.0 / 2.0) - 70.0, 480.0 / 2.0);
+            let transform = _c.transform.trans(10.0, 595.0);
 
-            text::Text::new_color(theme::TEXT_COLOR, 32).draw(
+            text::Text::new_color(theme::TEXT_COLOR, 18).draw(
                 "Snake v0.0.1",
                 &mut glyphs,
                 &_c.draw_state,
