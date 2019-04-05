@@ -19,6 +19,7 @@ pub struct Game {
     food_x: i32,
     food_y: i32,
     food_exist: bool,
+    score: i32,
 }
 
 impl Game {
@@ -32,6 +33,7 @@ impl Game {
             food_x: 10,
             food_y: 20,
             food_exist: false,
+            score: 0,
         }
     }
 
@@ -48,6 +50,9 @@ impl Game {
         draw_rectangle(theme::BORDER_COLOR, 0, self.height - 1, self.width, 1, context, g);
         draw_rectangle(theme::BORDER_COLOR, 0, 0, 1, self.height, context, g);
         draw_rectangle(theme::BORDER_COLOR, self.width - 1, 0, 1, self.height, context, g);
+
+        self.render_score(context, g, glyphs);
+
         if self.is_game_over {
             self.render_game_over(context, g, glyphs);
         }
@@ -117,6 +122,18 @@ impl Game {
         ).unwrap();
     }
 
+    fn render_score(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
+        let transform = context.transform.trans((self.width * 10 - 200).into(), (self.height * 10 + 15).into());
+        
+        text::Text::new_color(theme::TEXT_COLOR, 18).draw(
+            &("Score: ".to_owned() + &self.score.to_string().to_owned()),
+            glyphs,
+            &context.draw_state,
+            transform,
+            g
+        ).unwrap();
+    }
+
     fn add_food(&mut self) {
         let mut rng = thread_rng();
 
@@ -136,6 +153,7 @@ impl Game {
         if self.food_exist && self.food_x == head_x && self.food_y == head_y {
             self.food_exist = false;
             self.snake.add_tail(direction);
+            self.score = self.score + 1;
         }
     }
 
@@ -147,5 +165,6 @@ impl Game {
         self.food_y = 20;
         self.food_exist = true;
         self.is_game_over = false;
+        self.score = 0;
     }
 }
