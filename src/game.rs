@@ -110,9 +110,10 @@ impl Game {
     }
 
     fn render_game_over(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
-        let transform = context.transform.trans((640.0 / 2.0) - 70.0, (480.0 / 2.0) + 80.0);
+        let pos_x = (((self.width * 10) as f32 / 2.0) - 60.0).into();
+        let pos_y = (((self.height * 10) as f32 / 2.0) + 16.0).into();
+        let transform = context.transform.trans(pos_x, pos_y);
 
-        
         text::Text::new_color(theme::TEXT_COLOR, 32).draw(
             "Game Over",
             glyphs,
