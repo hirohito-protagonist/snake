@@ -136,7 +136,7 @@ impl Game {
         let transform = context.transform.trans((self.width * 10 - 200).into(), (self.height * 10 + 15).into());
         
         text::Text::new_color(theme::TEXT_COLOR, 18).draw(
-            &("Score: ".to_owned() + &self.score.to_string().to_owned()),
+            &format!("Score: {}", self.score),
             glyphs,
             &context.draw_state,
             transform,
