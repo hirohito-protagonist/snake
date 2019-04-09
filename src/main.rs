@@ -8,12 +8,16 @@ mod theme;
 mod snake;
 mod game;
 
-// use draw::draw_block;
 
 fn main() {
+    
+    const UPDATES_PER_SECOND: u64 = 60;
+
     let (width, height) = (80, 58);
+    
     let mut window: PistonWindow = WindowSettings::new("Snake", (800,  600))
         .exit_on_esc(true)
+        .vsync(true)
         .build()
         .unwrap_or_else(|e| { panic!("Failed to build PistonWindow: {}", e) });
 
@@ -25,7 +29,11 @@ fn main() {
     
     let mut game = game::Game::new(width as i32, height as i32);
 
-    while let Some(e) = window.next() {
+    let mut events = Events::new(EventSettings::new())
+        .max_fps(UPDATES_PER_SECOND)
+        .ups(UPDATES_PER_SECOND);
+
+    while let Some(e) = events.next(&mut window) {
         if let Some(Button::Keyboard(key)) = e.press_args() {
             game.key_pressed(key);
         }

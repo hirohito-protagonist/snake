@@ -8,7 +8,7 @@ use crate::draw::{draw_rectangle, draw_block};
 use crate::snake::{Snake, Direction};
 use crate::theme;
 
-const MOVING_PERIOD: f64 = 0.1;
+const MOVING_PERIOD: f64 = 0.04;
 
 pub struct Game {
     snake: Snake,
