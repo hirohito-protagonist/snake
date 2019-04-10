@@ -8,7 +8,7 @@ use crate::draw::{draw_rectangle, draw_block};
 use crate::snake::{Snake, Direction};
 use crate::theme;
 
-const MOVING_PERIOD: f64 = 0.04;
+const MOVING_PERIOD: f64 = 0.1;
 
 pub struct Game {
     snake: Snake,
@@ -20,6 +20,7 @@ pub struct Game {
     food_y: i32,
     food_exist: bool,
     score: i32,
+    snake_speed: f64,
 }
 
 impl Game {
@@ -34,6 +35,7 @@ impl Game {
             food_y: 20,
             food_exist: false,
             score: 0,
+            snake_speed: 0.1,
         }
     }
 
@@ -81,7 +83,7 @@ impl Game {
 
     pub fn update(&mut self, delta_time: f64) {
         self.waiting_time += delta_time;
-        if self.waiting_time > MOVING_PERIOD {
+        if self.waiting_time > self.snake_speed {
             self.update_snake(None);
         }
 
@@ -164,6 +166,9 @@ impl Game {
             self.food_exist = false;
             self.snake.add_tail(direction);
             self.score = self.score + 1;
+            if self.snake_speed > 0.04 {
+                self.snake_speed = self.snake_speed - 0.01;
+            }
         }
     }
 
@@ -176,5 +181,6 @@ impl Game {
         self.food_exist = true;
         self.is_game_over = false;
         self.score = 0;
+        self.snake_speed = 0.1;
     }
 }
