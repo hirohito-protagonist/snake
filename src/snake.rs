@@ -66,7 +66,7 @@ impl Snake {
             None => (),
         }
 
-        self.body.push_front(self.create_block(direction));
+        self.body.push_front(self.create_block());
         self.body.pop_back().unwrap();
     }
 
@@ -116,10 +116,10 @@ impl Snake {
             Some(d) => self.direction = d,
             None => (),
         }
-        self.body.push_back(self.create_block(direction));
+        self.body.push_back(self.create_block());
     }
 
-    fn create_block(&self, direction: Option<Direction>) -> Block {
+    fn create_block(&self) -> Block {
 
 
         let (last_x, last_y): (i32, i32) = self.head_position();
