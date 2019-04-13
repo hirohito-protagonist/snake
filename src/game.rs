@@ -6,6 +6,7 @@ use piston_window::*;
 
 use crate::draw::{draw_rectangle, draw_block};
 use crate::snake::{Snake, Direction};
+use crate::food::{Food};
 use crate::theme;
 
 pub struct Game {
@@ -14,11 +15,10 @@ pub struct Game {
     height: i32,
     waiting_time: f64,
     is_game_over: bool,
-    food_x: i32,
-    food_y: i32,
     food_exist: bool,
     score: i32,
     snake_speed: f64,
+    food: Food,
 }
 
 impl Game {
@@ -29,11 +29,10 @@ impl Game {
             height,
             waiting_time: 0.0,
             is_game_over: false,
-            food_x: 10,
-            food_y: 20,
             food_exist: false,
             score: 0,
             snake_speed: 0.1,
+            food: Food::new(10, 20),
         }
     }
 
@@ -44,7 +43,7 @@ impl Game {
         }
 
         if self.food_exist {
-            draw_block(theme::FOOD_COLOR, self.food_x, self.food_y, context, g);
+            self.food.draw(context, g);
         }
         draw_rectangle(theme::BORDER_COLOR, 0, 0, self.width, 1, context, g);
         draw_rectangle(theme::BORDER_COLOR, 0, self.height - 1, self.width, 1, context, g);
@@ -145,22 +144,19 @@ impl Game {
     }
 
     fn add_food(&mut self) {
-        let mut rng = thread_rng();
 
-        let mut new_x = rng.gen_range(1, self.width - 1);
-        let mut new_y = rng.gen_range(1, self.height - 1);
-        while self.snake.is_tail_collision(new_x, new_y) {
-            new_x = rng.gen_range(1, self.width - 1);
-            new_y = rng.gen_range(1, self.height - 1);
+        self.food.reposition(self.width, self.height);
+        let (food_x, food_y): (i32, i32) = self.food.position();
+        while self.snake.is_tail_collision(food_x, food_y) {
+            self.food.reposition(self.width, self.height);
         }
-        self.food_x = new_x;
-        self.food_y = new_y;
         self.food_exist = true;
     }
 
     fn check_eating(&mut self, direction: Option<Direction>) {
         let (head_x, head_y): (i32, i32) = self.snake.head_position();
-        if self.food_exist && self.food_x == head_x && self.food_y == head_y {
+        let (food_x, food_y): (i32, i32) = self.food.position();
+        if self.food_exist && food_x == head_x && food_y == head_y {
             self.food_exist = false;
             self.snake.add_tail(direction);
             self.score = self.score + 1;
@@ -174,11 +170,10 @@ impl Game {
         self.snake = Snake::new(1, 1);
         self.waiting_time =  0.0;
         self.is_game_over = false;
-        self.food_x = 10;
-        self.food_y = 20;
         self.food_exist = true;
         self.is_game_over = false;
         self.score = 0;
         self.snake_speed = 0.1;
+        self.food = Food::new(10, 20);
     }
 }

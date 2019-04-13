@@ -1,5 +1,6 @@
 use piston_window::{Context, G2d};
 use crate::draw::{draw_block};
+use rand::{thread_rng, Rng};
 use crate::theme;
 
 pub struct Food {

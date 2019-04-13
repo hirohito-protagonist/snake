@@ -5,6 +5,7 @@ use piston_window::*;
 
 mod draw;
 mod theme;
+mod food;
 mod snake;
 mod game;
 
