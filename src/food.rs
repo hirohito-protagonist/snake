@@ -1,18 +1,21 @@
 use piston_window::{Context, G2d};
 use crate::draw::{draw_block};
 use rand::{thread_rng, Rng};
+use rand::rngs::{ThreadRng};
 use crate::theme;
 
 pub struct Food {
     x: i32,
     y: i32,
+    rng:  ThreadRng,
 }
 
 impl Food {
     pub fn new(x: i32, y: i32) -> Food {
         Food{
             x,
-            y
+            y,
+            rng: thread_rng(),
         }
     }
 
@@ -21,9 +24,8 @@ impl Food {
     }
 
     pub fn reposition(&mut self, width: i32, height: i32) {
-        let mut rng = thread_rng();
-        let new_x = rng.gen_range(1, width - 1);
-        let new_y = rng.gen_range(1, height - 1);
+        let new_x = self.rng.gen_range(1, width - 1);
+        let new_y = self.rng.gen_range(1, height - 1);
         self.x = new_x;
         self.y = new_y;
     }
