@@ -22,11 +22,12 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(width: i32, height: i32) -> Game {
+    pub fn new(viewport: (u32, u32)) -> Game {
+        let (width, height) = viewport;
         Game{
             snake: Snake::new(1, 1),
-            width,
-            height,
+            width: width as i32,
+            height: height as i32,
             waiting_time: 0.0,
             is_game_over: false,
             food_exist: false,

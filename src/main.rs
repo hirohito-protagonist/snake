@@ -14,9 +14,11 @@ fn main() {
     
     const UPDATES_PER_SECOND: u64 = 60;
 
-    let (width, height) = (80, 58);
     
-    let mut window: PistonWindow = WindowSettings::new("Snake", (800,  600))
+    let viewport: (u32, u32) = (80, 58);
+    let window_resolution: (u32, u32) = (viewport.0 * 10, (viewport.1 * 10) + 20);
+    
+    let mut window: PistonWindow = WindowSettings::new("Snake", window_resolution)
         .exit_on_esc(true)
         .vsync(true)
         .build()
@@ -28,7 +30,7 @@ fn main() {
     let factory = window.factory.clone();
     let mut glyphs = Glyphs::new(font, factory, TextureSettings::new()).unwrap();
     
-    let mut game = game::Game::new(width as i32, height as i32);
+    let mut game = game::Game::new(viewport);
 
     let mut events = Events::new(EventSettings::new())
         .max_fps(UPDATES_PER_SECOND)
