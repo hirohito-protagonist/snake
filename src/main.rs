@@ -21,6 +21,7 @@ fn main() {
     let mut window: PistonWindow = WindowSettings::new("Snake", window_resolution)
         .exit_on_esc(true)
         .vsync(true)
+        .resizable(false)
         .build()
         .unwrap_or_else(|e| { panic!("Failed to build PistonWindow: {}", e) });
 
