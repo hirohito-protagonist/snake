@@ -1,10 +1,9 @@
 extern crate piston_window;
 extern crate find_folder;
 
-use rand::{thread_rng, Rng};
 use piston_window::*;
 
-use crate::draw::{draw_rectangle, draw_block};
+use crate::draw::{draw_rectangle};
 use crate::snake::{Snake, Direction};
 use crate::food::{Food};
 use crate::theme;
