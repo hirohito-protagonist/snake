@@ -3,6 +3,7 @@ extern crate find_folder;
 
 use piston_window::*;
 
+mod types;
 mod draw;
 mod theme;
 mod food;

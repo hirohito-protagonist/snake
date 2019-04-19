@@ -4,7 +4,8 @@ extern crate find_folder;
 use piston_window::*;
 
 use crate::draw::{draw_rectangle};
-use crate::snake::{Snake, Direction};
+use crate::types::{Direction};
+use crate::snake::{Snake};
 use crate::food::{Food};
 use crate::theme;
 
