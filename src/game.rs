@@ -4,7 +4,7 @@ extern crate find_folder;
 use piston_window::*;
 
 use crate::draw::{draw_rectangle};
-use crate::types::{Direction};
+use crate::types::{Direction, State};
 use crate::snake::{Snake};
 use crate::food::{Food};
 use crate::theme;
@@ -13,12 +13,8 @@ pub struct Game {
     snake: Snake,
     width: i32,
     height: i32,
-    waiting_time: f64,
-    is_game_over: bool,
-    food_exist: bool,
-    score: i32,
-    snake_speed: f64,
     food: Food,
+    state: State,
 }
 
 impl Game {
@@ -28,22 +24,18 @@ impl Game {
             snake: Snake::new(1, 1),
             width: width as i32,
             height: height as i32,
-            waiting_time: 0.0,
-            is_game_over: false,
-            food_exist: false,
-            score: 0,
-            snake_speed: 0.1,
+            state: State::new(),
             food: Food::new(10, 20),
         }
     }
 
     pub fn draw(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
 
-        if !self.is_game_over {
+        if !self.state.is_game_over {
             self.snake.draw(context, g);
         }
 
-        if self.food_exist {
+        if self.state.food_exist {
             self.food.draw(context, g);
         }
         draw_rectangle(theme::BORDER_COLOR, 0, 0, self.width, 1, context, g);
@@ -53,13 +45,13 @@ impl Game {
 
         self.render_score(context, g, glyphs);
 
-        if self.is_game_over {
+        if self.state.is_game_over {
             self.render_game_over(context, g, glyphs);
         }
     }
 
     pub fn key_pressed(&mut self, key: Key) {
-        if self.is_game_over {
+        if self.state.is_game_over {
             match key {
                 Key::Space => self.restart(),
                 _ => {}
@@ -80,12 +72,12 @@ impl Game {
     }
 
     pub fn update(&mut self, delta_time: f64) {
-        self.waiting_time += delta_time;
-        if self.waiting_time > self.snake_speed {
+        self.state.waiting_time += delta_time;
+        if self.state.waiting_time > self.state.snake_speed {
             self.update_snake(None);
         }
 
-        if !self.food_exist {
+        if !self.state.food_exist {
             self.add_food();
         }
     }
@@ -95,9 +87,9 @@ impl Game {
             self.snake.move_forward(direction);
             self.check_eating(direction);
         } else {
-            self.is_game_over = true;
+            self.state.is_game_over = true;
         }
-        self.waiting_time = 0.0;
+        self.state.waiting_time = 0.0;
     }
 
     fn is_snake_alive(&self, dir: Option<Direction>) -> bool {
@@ -136,7 +128,7 @@ impl Game {
         let transform = context.transform.trans((self.width * 10 - 200).into(), (self.height * 10 + 15).into());
         
         text::Text::new_color(theme::TEXT_COLOR, 18).draw(
-            &format!("Score: {}", self.score),
+            &format!("Score: {}", self.state.score),
             glyphs,
             &context.draw_state,
             transform,
@@ -151,30 +143,23 @@ impl Game {
         while self.snake.is_tail_collision(food_x, food_y) {
             self.food.reposition(self.width, self.height);
         }
-        self.food_exist = true;
+        self.state.is_food_exist(true);
     }
 
     fn check_eating(&mut self, direction: Option<Direction>) {
         let (head_x, head_y): (i32, i32) = self.snake.head_position();
         let (food_x, food_y): (i32, i32) = self.food.position();
-        if self.food_exist && food_x == head_x && food_y == head_y {
-            self.food_exist = false;
+        if self.state.food_exist && food_x == head_x && food_y == head_y {
+            self.state.is_food_exist(false);
             self.snake.add_tail(direction);
-            self.score = self.score + 1;
-            if self.snake_speed > 0.04 {
-                self.snake_speed = self.snake_speed - 0.01;
-            }
+            self.state.increase_score();
+            self.state.speed_up_snake();
         }
     }
 
     fn restart(&mut self) {
         self.snake = Snake::new(1, 1);
-        self.waiting_time =  0.0;
-        self.is_game_over = false;
-        self.food_exist = true;
-        self.is_game_over = false;
-        self.score = 0;
-        self.snake_speed = 0.1;
+        self.state = State::new();
         self.food = Food::new(10, 20);
     }
 }
