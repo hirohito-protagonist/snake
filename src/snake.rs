@@ -9,6 +9,7 @@ use crate::theme;
 pub struct Snake {
     body: LinkedList<Block>,
     direction: Direction,
+    last_tail_block: Option<Block>
 }
 
 impl Snake {
@@ -29,6 +30,7 @@ impl Snake {
         Snake {
             body,
             direction: Direction::Right,
+            last_tail_block: None,
         }
     }
 
@@ -46,7 +48,8 @@ impl Snake {
         }
 
         self.body.push_front(self.create_block());
-        self.body.pop_back().unwrap();
+        let tail = self.body.pop_back().unwrap();
+        self.last_tail_block = Some(tail);
     }
 
     pub fn head_position(&self) -> (i32, i32) {
@@ -90,12 +93,11 @@ impl Snake {
         return false;
     }
 
-    pub fn add_tail(&mut self, direction: Option<Direction>) {
-        match direction {
-            Some(d) => self.direction = d,
+    pub fn add_tail(&mut self) {
+        match &self.last_tail_block {
+            Some(block) => self.body.push_back(block.clone()),
             None => (),
         }
-        self.body.push_back(self.create_block());
     }
 
     fn create_block(&self) -> Block {
