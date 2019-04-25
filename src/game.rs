@@ -139,9 +139,12 @@ impl Game {
     fn add_food(&mut self) {
 
         self.food.reposition(self.width, self.height);
-        let (food_x, food_y): (i32, i32) = self.food.position();
+        let (mut food_x, mut food_y): (i32, i32) = self.food.position();
         while self.snake.is_tail_collision(food_x, food_y) {
             self.food.reposition(self.width, self.height);
+            let new_food_position = self.food.position();
+            food_x = new_food_position.0;
+            food_y = new_food_position.1;
         }
         self.state.is_food_exist(true);
     }
