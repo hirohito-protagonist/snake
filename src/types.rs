@@ -29,6 +29,7 @@ pub struct State {
     pub food_exist: bool,
     pub score: i32,
     pub snake_speed: f64,
+    pub is_pause: bool,
 }
 
 impl State {
@@ -39,6 +40,7 @@ impl State {
             food_exist: false,
             score: 0,
             snake_speed: 0.1,
+            is_pause: false,
         }
     }
 

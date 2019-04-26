@@ -51,6 +51,15 @@ impl Game {
     }
 
     pub fn key_pressed(&mut self, key: Key) {
+
+        if key == Key::P {
+            self.state.is_pause = !self.state.is_pause;
+        }
+
+        if self.state.is_pause {
+            return;
+        }
+
         if self.state.is_game_over {
             match key {
                 Key::Space => self.restart(),
@@ -72,6 +81,9 @@ impl Game {
     }
 
     pub fn update(&mut self, delta_time: f64) {
+        if self.state.is_pause {
+            return;
+        }
         self.state.waiting_time += delta_time;
         if self.state.waiting_time > self.state.snake_speed {
             self.update_snake(None);
