@@ -31,6 +31,10 @@ impl Game {
 
     pub fn draw(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
 
+        if self.state.is_pause && !self.state.is_game_over {
+            self.render_pause(context, g, glyphs);
+        }
+        
         if !self.state.is_game_over {
             self.snake.draw(context, g);
         }
@@ -132,6 +136,21 @@ impl Game {
             glyphs,
             &context.draw_state,
             reset_information_pos,
+            g
+        ).unwrap();
+    }
+
+    fn render_pause(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
+        let pos_x = (((self.width * 10) as f32 / 2.0) - 60.0).into();
+        let pos_y = (((self.height * 10) as f32 / 2.0) + 16.0).into();
+        let pause_pos = context.transform.trans(pos_x, pos_y);
+        let reset_information_pos = context.transform.trans(pos_x - 25.0, pos_y + 18.0);
+
+        text::Text::new_color(theme::TEXT_COLOR, 32).draw(
+            "Pause",
+            glyphs,
+            &context.draw_state,
+            pause_pos,
             g
         ).unwrap();
     }
