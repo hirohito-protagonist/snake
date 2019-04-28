@@ -8,6 +8,7 @@ mod draw;
 mod theme;
 mod food;
 mod snake;
+mod ui;
 mod game;
 
 
