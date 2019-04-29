@@ -60,7 +60,7 @@ impl UI {
         ).unwrap();
     }
 
-    pub fn render_score(&self, score: i32, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
+    pub fn render_score(&self, score: u32, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
         let transform = context.transform.trans((self.width * 10 - 200).into(), (self.height * 10 + 15).into());
         
         text::Text::new_color(theme::TEXT_COLOR, 18).draw(

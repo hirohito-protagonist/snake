@@ -12,8 +12,8 @@ use crate::ui::{UI};
 
 pub struct Game {
     snake: Snake,
-    width: i32,
-    height: i32,
+    width: u32,
+    height: u32,
     ui: UI,
     food: Food,
     state: State,
@@ -24,8 +24,8 @@ impl Game {
         let (width, height) = viewport;
         Game{
             snake: Snake::new(1, 1),
-            width: width as i32,
-            height: height as i32,
+            width,
+            height,
             ui: UI::new(viewport),
             state: State::new(),
             food: Food::new(10, 20),
@@ -123,7 +123,7 @@ impl Game {
     fn add_food(&mut self) {
 
         self.food.reposition(self.width, self.height);
-        let (mut food_x, mut food_y): (i32, i32) = self.food.position();
+        let (mut food_x, mut food_y): (u32, u32) = self.food.position();
         while self.snake.is_tail_collision(food_x, food_y) {
             self.food.reposition(self.width, self.height);
             let new_food_position = self.food.position();
@@ -134,8 +134,8 @@ impl Game {
     }
 
     fn check_eating(&mut self) {
-        let (head_x, head_y): (i32, i32) = self.snake.head_position();
-        let (food_x, food_y): (i32, i32) = self.food.position();
+        let (head_x, head_y): (u32, u32) = self.snake.head_position();
+        let (food_x, food_y): (u32, u32) = self.food.position();
         if self.state.food_exist && food_x == head_x && food_y == head_y {
             self.state.is_food_exist(false);
             self.snake.add_tail();

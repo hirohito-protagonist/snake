@@ -1,7 +1,7 @@
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Block {
-    pub x: i32,
-    pub y: i32,
+    pub x: u32,
+    pub y: u32,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq)]
@@ -27,7 +27,7 @@ pub struct State {
     pub waiting_time: f64,
     pub is_game_over: bool,
     pub food_exist: bool,
-    pub score: i32,
+    pub score: u32,
     pub snake_speed: f64,
     pub is_pause: bool,
 }

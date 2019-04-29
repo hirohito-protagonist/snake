@@ -3,11 +3,11 @@ use piston_window::types::Color;
 
 const BLOCK_SIZE: f64 = 10.0;
 
-pub fn to_coord(game_coord: i32) -> f64 {
+pub fn to_coord(game_coord: u32) -> f64 {
     (game_coord as f64) * BLOCK_SIZE
 }
 
-pub fn draw_block(color: Color, x: i32, y: i32, con: &Context, g: &mut G2d) {
+pub fn draw_block(color: Color, x: u32, y: u32, con: &Context, g: &mut G2d) {
     let x = to_coord(x);
     let y = to_coord(y);
 
@@ -19,7 +19,7 @@ pub fn draw_block(color: Color, x: i32, y: i32, con: &Context, g: &mut G2d) {
     )
 }
 
-pub fn draw_rectangle(color: Color, x: i32, y: i32, width: i32, height: i32, con: &Context, g: &mut G2d) {
+pub fn draw_rectangle(color: Color, x: u32, y: u32, width: u32, height: u32, con: &Context, g: &mut G2d) {
     let x = to_coord(x);
     let y = to_coord(y);
 

@@ -13,7 +13,7 @@ pub struct Snake {
 }
 
 impl Snake {
-    pub fn new(x: i32, y: i32) -> Snake {
+    pub fn new(x: u32, y: u32) -> Snake {
         let mut body = LinkedList::new();
         body.push_back(Block {
             x: x + 2,
@@ -52,13 +52,13 @@ impl Snake {
         self.last_tail_block = Some(tail);
     }
 
-    pub fn head_position(&self) -> (i32, i32) {
+    pub fn head_position(&self) -> (u32, u32) {
         let head_block = self.body.front().unwrap();
         (head_block.x, head_block.y)
     }
 
-    pub fn next_head(&self, dir: Option<Direction>) -> (i32, i32) {
-        let (head_x, head_y): (i32, i32) = self.head_position();
+    pub fn next_head(&self, dir: Option<Direction>) -> (u32, u32) {
+        let (head_x, head_y): (u32, u32) = self.head_position();
 
         let mut moving_dir = self.direction;
         match dir {
@@ -78,7 +78,7 @@ impl Snake {
         self.direction
     }
 
-    pub fn is_tail_collision(&self, x: i32, y: i32) -> bool {
+    pub fn is_tail_collision(&self, x: u32, y: u32) -> bool {
         let mut ch = 0;
         for block in &self.body {
             if x == block.x && y == block.y {
@@ -103,7 +103,7 @@ impl Snake {
     fn create_block(&self) -> Block {
 
 
-        let (last_x, last_y): (i32, i32) = self.head_position();
+        let (last_x, last_y): (u32, u32) = self.head_position();
 
         let new_block = match self.direction {
             Direction::Up => Block {

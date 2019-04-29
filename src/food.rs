@@ -5,13 +5,13 @@ use rand::rngs::{ThreadRng};
 use crate::theme;
 
 pub struct Food {
-    x: i32,
-    y: i32,
+    x: u32,
+    y: u32,
     rng:  ThreadRng,
 }
 
 impl Food {
-    pub fn new(x: i32, y: i32) -> Food {
+    pub fn new(x: u32, y: u32) -> Food {
         Food{
             x,
             y,
@@ -23,14 +23,14 @@ impl Food {
         draw_block(theme::FOOD_COLOR, self.x, self.y, context, g);
     }
 
-    pub fn reposition(&mut self, width: i32, height: i32) {
+    pub fn reposition(&mut self, width: u32, height: u32) {
         let new_x = self.rng.gen_range(1, width - 1);
         let new_y = self.rng.gen_range(1, height - 1);
         self.x = new_x;
         self.y = new_y;
     }
 
-    pub fn position(&self) -> (i32, i32) {
+    pub fn position(&self) -> (u32, u32) {
         (self.x, self.y)
     }
 }
