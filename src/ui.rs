@@ -71,4 +71,16 @@ impl UI {
             g
         ).unwrap();
     }
+
+    pub fn render_title(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
+        let transform = context.transform.trans(10.0,  (self.height * 10 + 15).into());
+
+        text::Text::new_color(theme::TEXT_COLOR, 18).draw(
+            "Snake v0.0.1",
+            glyphs,
+            &context.draw_state,
+            transform,
+            g
+        ).unwrap();
+    }
 }

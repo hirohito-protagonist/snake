@@ -45,19 +45,7 @@ fn main() {
         }
         window.draw_2d(&e, |_c, g| {
             clear(theme::BACKGROUND_COLOR, g);
-            game.draw(&_c, g, &mut glyphs);
-            
-            let transform = _c.transform.trans(10.0, 595.0);
-
-            text::Text::new_color(theme::TEXT_COLOR, 18).draw(
-                "Snake v0.0.1",
-                &mut glyphs,
-                &_c.draw_state,
-                transform,
-                g
-            ).unwrap();
-
-            
+            game.draw(&_c, g, &mut glyphs); 
         });
 
         e.update(|arg| {

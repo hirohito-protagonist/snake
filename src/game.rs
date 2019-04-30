@@ -51,6 +51,7 @@ impl Game {
         draw_rectangle(theme::BORDER_COLOR, self.width - 1, 0, 1, self.height, context, g);
 
         self.ui.render_score(self.state.score, context, g, glyphs);
+        self.ui.render_title(context, g, glyphs);
 
         if self.state.is_game_over {
             self.ui.render_game_over(context, g, glyphs);
