@@ -14,10 +14,14 @@ mod game;
 
 fn main() {
     
+    let viewport: (u32, u32) = (80, 58);
+    let mut game = game::Game::new(viewport);
+    create_window(viewport, &mut game);
+}
+
+fn create_window(viewport: (u32, u32), game: &mut game::Game) {
     const UPDATES_PER_SECOND: u64 = 60;
 
-    
-    let viewport: (u32, u32) = (80, 58);
     let window_resolution: (u32, u32) = (viewport.0 * 10, (viewport.1 * 10) + 20);
     
     let mut window: PistonWindow = WindowSettings::new("Snake", window_resolution)
@@ -28,12 +32,11 @@ fn main() {
         .unwrap_or_else(|e| { panic!("Failed to build PistonWindow: {}", e) });
 
     let assets = find_folder::Search::ParentsThenKids(3, 3).for_folder("assets").unwrap();
-    // println!("{:?}", assets);
+
     let ref font = assets.join("FiraSans-Regular.ttf");
     let factory = window.factory.clone();
     let mut glyphs = Glyphs::new(font, factory, TextureSettings::new()).unwrap();
     
-    let mut game = game::Game::new(viewport);
 
     let mut events = Events::new(EventSettings::new())
         .max_fps(UPDATES_PER_SECOND)
