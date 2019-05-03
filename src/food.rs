@@ -34,3 +34,24 @@ impl Food {
         (self.x, self.y)
     }
 }
+
+#[cfg(test)]
+mod food_tests {
+    use crate::food::{Food};
+    #[test]
+    fn it_should_reposition_in_the_field_boundaries() {
+
+        // Given
+        let field_width = 10;
+        let field_height = 10;
+        let mut food = Food::new(200, 300);
+
+        // When
+        food.reposition(field_width, field_height);
+
+        // Then
+        let (food_x, food_y) = food.position();
+        assert!(food_x <= field_width);
+        assert!(food_y <= field_height);
+    }
+}
