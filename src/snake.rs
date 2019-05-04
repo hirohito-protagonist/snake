@@ -127,3 +127,39 @@ impl Snake {
         new_block
     }
 }
+
+#[cfg(test)]
+mod snake_tests {
+    use crate::snake::{Snake};
+    use crate::types::{Direction};
+
+    #[test]
+    fn it_should_be_created_from_3_segments_on_initial() {
+
+        // Given
+        let mut snake = Snake::new(0, 0);
+
+        // When
+        let (head_x, head_y) = snake.head_position();
+
+        // Then
+        assert_eq!(snake.body.len(), 3);
+        assert_eq!(head_x, 2);
+        assert_eq!(head_y, 0);
+    }
+
+    #[test]
+    fn it_move_snake_and_store_lat_tail_position() {
+
+        // Given
+        let mut snake = Snake::new(0, 0);
+
+        // When
+        snake.move_forward(Some(Direction::Right));
+        let (head_x, head_y) = snake.head_position();
+        // Then
+        assert_eq!(snake.direction, Direction::Right);
+        assert_eq!(head_x, 3);
+        assert_eq!(head_y, 0);
+    }
+}
