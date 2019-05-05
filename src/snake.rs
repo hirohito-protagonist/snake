@@ -162,4 +162,79 @@ mod snake_tests {
         assert_eq!(head_x, 3);
         assert_eq!(head_y, 0);
     }
+
+    #[test]
+    fn it_should_calculate_next_head_snake_position() {
+
+        // Given
+        let snake = Snake::new(0, 0);
+
+        // When
+        let actual_head_position = snake.head_position();
+        let future_head_position = snake.next_head(Some(Direction::Right));
+
+        // Then
+        assert_eq!(actual_head_position.0, 2);
+        assert_eq!(actual_head_position.1, 0);
+
+        assert_eq!(future_head_position.0, 3);
+        assert_eq!(future_head_position.1, 0);
+    }
+
+    #[test]
+    fn it_should_add_tail_only_when_snake_was_moved_at_least_in_one_position() {
+
+        // Given
+        let mut snake = Snake::new(0, 0);
+
+        // When
+        snake.add_tail();
+        snake.add_tail();
+        snake.add_tail();
+        snake.add_tail();
+        snake.move_forward(Some(Direction::Right));
+        snake.add_tail();
+        snake.move_forward(Some(Direction::Right));
+        snake.add_tail();
+
+        // Then
+        assert_eq!(snake.body.len(), 5);
+    }
+
+    #[test]
+    fn it_should_return_false_when_body_is_not_in_collision_with_head() {
+
+        // Given
+        let mut snake = Snake::new(0, 0);
+        let (head_x, head_y) = snake.next_head(Some(Direction::Right));
+
+        // When
+        let is_tail_collision = snake.is_tail_collision(head_x, head_y);
+
+        // Then
+        assert_eq!(is_tail_collision, false);
+    }
+
+    #[test]
+    fn it_should_return_true_when_body_is_in_collision_with_head() {
+        
+        // Given
+        let mut snake = Snake::new(0, 0);
+        
+        // When
+        snake.move_forward(Some(Direction::Right));
+        snake.add_tail();
+        snake.add_tail();
+        snake.add_tail();
+        snake.add_tail();
+        snake.move_forward(Some(Direction::Down));
+        snake.move_forward(Some(Direction::Down));
+        snake.move_forward(Some(Direction::Left));
+        snake.move_forward(Some(Direction::Up));
+        let (head_x, head_y) = snake.next_head(Some(Direction::Right));
+        let is_tail_collision = snake.is_tail_collision(head_x, head_y);
+
+        // Then
+        assert_eq!(is_tail_collision, true);
+    }
 }
