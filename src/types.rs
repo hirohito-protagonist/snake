@@ -58,3 +58,45 @@ impl State {
         self.food_exist = is_exists;
     }
 }
+
+#[cfg(test)]
+mod state_tests {
+    use crate::types::{State};
+
+    #[test]
+    fn it_should_increase_score_by_one_point() {
+
+        // Given
+        let mut state = State::new();
+
+        // When
+        state.increase_score();
+        state.increase_score();
+
+        // Then
+        assert_eq!(state.score, 2);
+    }
+
+    #[test]
+    fn it_should_speed_up_snake_until_reach_max_speed() {
+        // Given
+        let mut state = State::new();
+
+        // When
+        state.speed_up_snake();
+        state.speed_up_snake();
+        state.speed_up_snake();
+        state.speed_up_snake();
+        state.speed_up_snake();
+        state.speed_up_snake();
+        state.speed_up_snake();
+        state.speed_up_snake();
+        state.speed_up_snake();
+        state.speed_up_snake();
+        state.speed_up_snake();
+        state.speed_up_snake();
+
+        // Then
+        assert_eq!(state.snake_speed, 0.030000000000000013);
+    }
+}
