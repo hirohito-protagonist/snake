@@ -34,15 +34,15 @@ impl Game {
 
     pub fn draw(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
 
-        if self.state.is_pause && !self.state.is_game_over {
+        if self.state.is_pause() && !self.state.is_game_over() {
             self.ui.render_pause(context, g, glyphs);
         }
         
-        if !self.state.is_game_over {
+        if !self.state.is_game_over() {
             self.snake.draw(context, g);
         }
 
-        if self.state.food_exist {
+        if self.state.is_food_exists() {
             self.food.draw(context, g);
         }
         draw_rectangle(theme::BORDER_COLOR, 0, 0, self.width, 1, context, g);
@@ -50,10 +50,10 @@ impl Game {
         draw_rectangle(theme::BORDER_COLOR, 0, 0, 1, self.height, context, g);
         draw_rectangle(theme::BORDER_COLOR, self.width - 1, 0, 1, self.height, context, g);
 
-        self.ui.render_score(self.state.score, context, g, glyphs);
+        self.ui.render_score(self.state.get_score(), context, g, glyphs);
         self.ui.render_title(context, g, glyphs);
 
-        if self.state.is_game_over {
+        if self.state.is_game_over() {
             self.ui.render_game_over(context, g, glyphs);
         }
     }
@@ -61,14 +61,14 @@ impl Game {
     pub fn key_pressed(&mut self, key: Key) {
 
         if key == Key::P {
-            self.state.is_pause = !self.state.is_pause;
+            self.state.set_pause(!self.state.is_pause());
         }
 
-        if self.state.is_pause {
+        if self.state.is_pause() {
             return;
         }
 
-        if self.state.is_game_over {
+        if self.state.is_game_over() {
             match key {
                 Key::Space => self.restart(),
                 _ => {}
@@ -89,15 +89,15 @@ impl Game {
     }
 
     pub fn update(&mut self, delta_time: f64) {
-        if self.state.is_pause {
+        if self.state.is_pause() {
             return;
         }
-        self.state.waiting_time += delta_time;
-        if self.state.waiting_time > self.state.snake_speed {
+        self.state.add_waiting_time(delta_time);
+        if self.state.get_waiting_time() > self.state.get_snake_speed() {
             self.update_snake(None);
         }
 
-        if !self.state.food_exist {
+        if !self.state.is_food_exists() {
             self.add_food();
         }
     }
@@ -107,9 +107,9 @@ impl Game {
             self.snake.move_forward(direction);
             self.check_eating();
         } else {
-            self.state.is_game_over = true;
+            self.state.set_game_over(true);
         }
-        self.state.waiting_time = 0.0;
+        self.state.set_waiting_time(0.0);
     }
 
     fn is_snake_alive(&self, dir: Option<Direction>) -> bool {
@@ -131,14 +131,14 @@ impl Game {
             food_x = new_food_position.0;
             food_y = new_food_position.1;
         }
-        self.state.is_food_exist(true);
+        self.state.set_food_exists(true);
     }
 
     fn check_eating(&mut self) {
         let (head_x, head_y): (u32, u32) = self.snake.head_position();
         let (food_x, food_y): (u32, u32) = self.food.position();
-        if self.state.food_exist && food_x == head_x && food_y == head_y {
-            self.state.is_food_exist(false);
+        if self.state.is_food_exists() && food_x == head_x && food_y == head_y {
+            self.state.set_food_exists(false);
             self.snake.add_tail();
             self.state.increase_score();
             self.state.speed_up_snake();

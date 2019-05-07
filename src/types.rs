@@ -24,12 +24,12 @@ impl Direction {
 }
 
 pub struct State {
-    pub waiting_time: f64,
-    pub is_game_over: bool,
-    pub food_exist: bool,
+    waiting_time: f64,
+    is_game_over: bool,
+    food_exist: bool,
     pub score: u32,
-    pub snake_speed: f64,
-    pub is_pause: bool,
+    snake_speed: f64,
+    is_pause: bool,
 }
 
 impl State {
@@ -50,12 +50,52 @@ impl State {
         }
     }
 
+    pub fn get_snake_speed(&self) -> f64 {
+        self.snake_speed
+    }
+
     pub fn increase_score(&mut self) {
         self.score = self.score + 1;
     }
 
-    pub fn is_food_exist(&mut self, is_exists: bool) {
-        self.food_exist = is_exists;
+    pub fn get_score(&self) -> u32 {
+        self.score
+    }
+
+    pub fn add_waiting_time(&mut self, t: f64) {
+        self.waiting_time = self.waiting_time + t;
+    }
+
+    pub fn set_waiting_time(&mut self, t: f64) {
+        self.waiting_time = t;
+    }
+
+    pub fn get_waiting_time(&self) -> f64 {
+        self.waiting_time
+    }
+
+    pub fn is_game_over(&self) -> bool {
+        self.is_game_over
+    }
+
+    pub fn set_game_over(&mut self, game_over: bool) {
+        self.is_game_over = game_over;
+    }
+
+    pub fn is_pause(&self) -> bool {
+        self.is_pause
+    }
+
+    pub fn set_pause(&mut self, pause: bool) {
+        self.is_pause = pause;
+    }
+
+    pub fn is_food_exists(&self) -> bool {
+        self.food_exist
+    }
+
+    pub fn set_food_exists(&mut self, food_exists: bool) {
+        self.food_exist = food_exists;
     }
 }
 
