@@ -64,7 +64,7 @@ impl Game {
             self.state.set_pause(!self.state.is_pause());
         }
 
-        if self.state.is_pause() {
+        if self.state.is_pause() && !self.state.is_game_over() {
             return;
         }
 
