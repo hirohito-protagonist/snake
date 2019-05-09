@@ -3,7 +3,6 @@ extern crate find_folder;
 
 use piston_window::*;
 
-use crate::types::{State};
 use crate::theme;
 
 
@@ -49,7 +48,6 @@ impl UI {
         let pos_x = (((self.width * 10) as f32 / 2.0) - 60.0).into();
         let pos_y = (((self.height * 10) as f32 / 2.0) + 16.0).into();
         let pause_pos = context.transform.trans(pos_x, pos_y);
-        let reset_information_pos = context.transform.trans(pos_x - 25.0, pos_y + 18.0);
 
         text::Text::new_color(theme::TEXT_COLOR, 32).draw(
             "Pause",
