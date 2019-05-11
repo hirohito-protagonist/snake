@@ -60,12 +60,17 @@ impl Game {
 
     pub fn key_pressed(&mut self, key: Key) {
 
+        
         if key == Key::P {
             self.state.set_pause(!self.state.is_pause());
         }
 
         if self.state.is_pause() && !self.state.is_game_over() {
             return;
+        }
+
+        if !self.state.is_pause() && !self.state.is_game_over() && key == Key::R {
+            self.restart();
         }
 
         if self.state.is_game_over() {

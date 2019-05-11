@@ -28,6 +28,7 @@ Move the Snake around using the keyboard arrows and eat food. The more food you 
 * <kbd>&#8592;</kbd> <kbd>&#8593;</kbd> <kbd>&#8594;</kbd> <kbd>&#8595;</kbd> -move around
 * <kbd>esc</kbd> - quit
 * <kbd>p</kbd> - pause
+* <kbd>r</kbd> - reset
 * <kbd>spacebar</kbd> - reset after game over
 
 
