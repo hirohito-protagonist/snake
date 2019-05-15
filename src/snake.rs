@@ -100,6 +100,15 @@ impl Snake {
         }
     }
 
+    pub fn is_alive(&self, dir: Option<Direction>, viewport: (u32, u32)) -> bool {
+        let (next_x, next_y) = self.next_head(dir);
+
+        if self.is_tail_collision(next_x, next_y) {
+            return false;
+        }
+        next_x > 0 && next_y > 0 && next_x < viewport.0 - 1 && next_y < viewport.1 - 1
+    }
+
     fn create_block(&self) -> Block {
 
 

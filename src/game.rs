@@ -108,22 +108,13 @@ impl Game {
     }
 
     fn update_snake(&mut self, direction: Option<Direction>) {
-        if self.is_snake_alive(direction) {
+        if self.snake.is_alive(direction, (self.width, self.height)) {
             self.snake.move_forward(direction);
             self.check_eating();
         } else {
             self.state.set_game_over(true);
         }
         self.state.set_waiting_time(0.0);
-    }
-
-    fn is_snake_alive(&self, dir: Option<Direction>) -> bool {
-        let (next_x, next_y) = self.snake.next_head(dir);
-
-        if self.snake.is_tail_collision(next_x, next_y) {
-            return false;
-        }
-        next_x > 0 && next_y > 0 && next_x < self.width - 1 && next_y < self.height - 1
     }
 
     fn add_food(&mut self) {
