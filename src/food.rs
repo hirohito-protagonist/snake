@@ -19,7 +19,7 @@ impl Food {
         }
     }
 
-    pub fn draw(&self, context: &Context, g: &mut G2d) {
+    pub fn render(&self, context: &Context, g: &mut G2d) {
         draw_block(theme::FOOD_COLOR, self.x, self.y, context, g);
     }
 

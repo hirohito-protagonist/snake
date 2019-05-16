@@ -51,7 +51,7 @@ impl GameWindow {
             }
             window.draw_2d(&e, |_c, g| {
                 clear(theme::BACKGROUND_COLOR, g);
-                game.draw(&_c, g, font); 
+                game.render(&_c, g, font); 
             });
 
             e.update(|arg| {

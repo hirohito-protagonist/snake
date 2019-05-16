@@ -32,18 +32,18 @@ impl Game {
         }
     }
 
-    pub fn draw(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
+    pub fn render(&self, context: &Context, g: &mut G2d, glyphs: &mut piston_window::glyph_cache::rusttype::GlyphCache<GfxFactory, G2dTexture>) {
 
         if self.state.is_pause() && !self.state.is_game_over() {
             self.ui.render_pause(context, g, glyphs);
         }
         
         if !self.state.is_game_over() {
-            self.snake.draw(context, g);
+            self.snake.render(context, g);
         }
 
         if self.state.is_food_exists() {
-            self.food.draw(context, g);
+            self.food.render(context, g);
         }
         draw_rectangle(theme::BORDER_COLOR, 0, 0, self.width, 1, context, g);
         draw_rectangle(theme::BORDER_COLOR, 0, self.height - 1, self.width, 1, context, g);

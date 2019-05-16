@@ -34,7 +34,7 @@ impl Snake {
         }
     }
 
-    pub fn draw(&self, context: &Context, g: &mut G2d) {
+    pub fn render(&self, context: &Context, g: &mut G2d) {
         for block in &self.body {
             draw_block(theme::SNAKE_COLOR, block.x, block.y, context, g);
         }
